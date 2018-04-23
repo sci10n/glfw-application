@@ -19,12 +19,12 @@ workspace (name)
 
 -- This function includes GLFW's header files
 function includeGLFW()
-    includedirs "Libraries/GLFW/include"
+    includedirs "lib/GLFW/include"
 end 
 
 -- This function links statically against GLFW
 function linkGLFW()
-    libdirs "Libraries/GLFW/lib"
+    libdirs "lib/GLFW/lib"
     
     -- Our static lib should not link against GLFW
     filter "kind:not StaticLib"
@@ -33,26 +33,22 @@ function linkGLFW()
 end
 
 -- Our first project, the static library
-project "ExampleLib"
+project "libexample"
     kind "StaticLib"
-    files "Projects/ExampleLib/**"
+    files "projects/libexample/**"
     includeGLFW()
 
 function useExampleLib()
-    includedirs "Projects/ExampleLib"
-    
-    -- We link against a library that's in the same workspace, so we can just
-    -- use the project name - premake is really smart and will handle everything for us.
-    links "ExampleLib"
+    includedirs "projects/libexample"
+    links "libexample"
     linkGLFW()
 end
 
--- The windowed app
-project "App"
+project "applciation"
     kind "ConsoleApp"
-    files "Projects/App/**"
+    files "projects/app/**"
 
-    includedirs "Projects/ExampleLib"
+    includedirs "projects/libexample"
     
     useExampleLib()
         
@@ -65,17 +61,17 @@ project "App"
 -- We will use this function to include Catch
 function includeCatch()
     -- Catch is header-only, we need just the Catch.hpp header
-    includedirs "Libraries/Catch/include"
+    includedirs "lib/Catch/include"
     
     -- We can also configure Catch through defines
     defines "CATCH_CPP11_OR_GREATER"
 end
 
-project "UnitTests"
+project "tests"
     -- Catch prints information to the console
     kind "ConsoleApp"
     
-    files "Projects/UnitTests/**"
+    files "projects/tests/**"
     
     includeCatch()
     useExampleLib()

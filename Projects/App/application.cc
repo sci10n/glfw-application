@@ -1,7 +1,6 @@
 #include <ExampleLib.h>
 
 #if defined _WIN32
-        // OpenGL on Windows needs Windows.h
 	#include <Windows.h>
 #endif
 
