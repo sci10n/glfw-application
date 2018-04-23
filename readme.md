@@ -1,4 +1,4 @@
-C++14 Project Template
+C++11 Project Template
 ======================
 
 Project template for C++11 using the Premake 5 build system.
