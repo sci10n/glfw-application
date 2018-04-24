@@ -1,16 +1,15 @@
 GLFW window application
 ======================
 
+![assets/logo.png]{logo.png}
+
 Compiling and Testing
 ---------------------
 
-1. Place yourself in the root directory of this project.
-2. Acquire the latest version of the `premake5` build system.
-3. Thereafter, execute `premake5 gmake` if building on Make.
-4. Finally, issue the command `make -j8 -C build` and wait.
-5. When complete, either `bin` or `lib` have been built.
-6. Tests can be run with the `bin/*-tests` programs.
-7. **Shortcuts:** `make run` and `make test`.
+1. Download and Install `premake5`
+2. run `premake5 vs2015` or whatever build system you ware using
+3. build _appwrapper_ and _app_
+4. run _app.exe_ and make sure the _assets_ folder is located in the working dir.
 
 Usage and Documents
 -------------------
@@ -20,7 +19,7 @@ See the `docs` directory for *maybe* the project documentation.
 System Requirements
 -------------------
 
-Requires OpenGL 1.1
+Requires OpenGL 3.1
 
 Dependencies
 ------------
@@ -34,9 +33,8 @@ Dependencies
 Structure
 ---------
 * `build` - generated workspace
-* `build/bin` - compiled binaries
 * `projects` - source code for workspace projects
-* `lib` - external and internal libraries, need to add prcompiled `GLFW`.
+* `lib` - external and internal libraries, need to add prcompiled `GLFW`, `GLEW` and includes for the remaining libs.
 
 
 Acknowledgements
