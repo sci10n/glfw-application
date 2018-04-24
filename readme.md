@@ -1,7 +1,7 @@
 GLFW window application
 ======================
 
-![assets/logo.png]{logo.png}
+![logo](https://github.com/sci10n/glfw-application/raw/master/assets/logo.png)
 
 Compiling and Testing
 ---------------------
