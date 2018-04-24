@@ -1,7 +1,5 @@
-C++11 Project Template
+GLFW window application
 ======================
-
-Project template for C++11 using the Premake 5 build system.
 
 Compiling and Testing
 ---------------------
@@ -29,6 +27,8 @@ Dependencies
 
 * `Premake5`
 * `GLFW` 
+* `GLEW`
+* `LodePNG`
 * `Catch`
 
 Structure
