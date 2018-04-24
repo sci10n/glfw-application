@@ -1,7 +1,7 @@
 # Project Specific
 bin/
 lib/
-build/
+build
 docs/latex/
 docs/build/
 docs/reference/

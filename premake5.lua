@@ -8,6 +8,7 @@ workspace (name)
     configurations {"Debug", "Release"}
 
     filter {"configurations:Debug"}
+        debugdir "../" 
         defines {"DEBUG"}
         optimize "Off"
         symbols "On"
@@ -17,12 +18,14 @@ workspace (name)
         optimize "Speed"
         symbols "Off"
 
--- This function includes GLFW's header files
+-- ==============================
+-- GLFW Helper functions
+-- ==============================
+
 function includeGLFW()
     includedirs "lib/GLFW/include"
 end 
 
--- This function links statically against GLFW
 function linkGLFW()
     libdirs "lib/GLFW/lib"
     
@@ -32,46 +35,69 @@ function linkGLFW()
     filter {}
 end
 
--- Our first project, the static library
-project "libexample"
-    kind "StaticLib"
-    files "projects/libexample/**"
-    includeGLFW()
-
-function useExampleLib()
-    includedirs "projects/libexample"
-    links "libexample"
-    linkGLFW()
+-- ==============================
+-- GLEW Helper functions
+-- ==============================
+function includeGLEW()
+    includedirs "lib/GLEW/include"
 end
 
-project "applciation"
+function linkGLEW()
+    libdirs "lib/GLEW/lib"
+    
+    -- Our static lib should not link against GLEW
+    filter "kind:not StaticLib"
+        links "glew32"
+    filter {}
+end
+
+-- ==============================
+-- Static linking helper functions
+-- ==============================
+
+function includeCatch()
+    includedirs "lib/Catch/include"
+    defines "CATCH_CPP11_OR_GREATER"
+end
+
+function includeGLM()
+    includedirs "lib/GLM"
+    defines "GLM_ENABLE_EXPERIMENTAL"
+end
+
+-- ==============================
+-- Appwrapper project
+-- ==============================
+
+function useAppwrapper()
+    includedirs {"projects/appwrapper"}
+    links "appwrapper"
+    linkGLFW()
+    linkGLEW()
+end
+
+project "appwrapper"
+    kind "StaticLib"
+    files "projects/appwrapper/**"
+    includedirs {"projects/appwrapper/include"}
+
+    includeGLFW()
+    includeGLEW()
+    includeGLM()
+
+-- Main application
+project "app"
     kind "ConsoleApp"
     files "projects/app/**"
+    includeGLFW()
+    includeGLEW()
+    includeGLM()
 
-    includedirs "projects/libexample"
-    
-    useExampleLib()
+    includedirs {"projects/appwrapper/include"}
+    useAppwrapper()
         
     filter { "system:windows" }
     links { "OpenGL32" }
         
     filter { "system:not windows" }
     links { "GL" }
-
--- We will use this function to include Catch
-function includeCatch()
-    -- Catch is header-only, we need just the Catch.hpp header
-    includedirs "lib/Catch/include"
-    
-    -- We can also configure Catch through defines
-    defines "CATCH_CPP11_OR_GREATER"
-end
-
-project "tests"
-    -- Catch prints information to the console
-    kind "ConsoleApp"
-    
-    files "projects/tests/**"
-    
-    includeCatch()
-    useExampleLib()
